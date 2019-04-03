@@ -28,7 +28,7 @@ hawai <- read_csv("donnees/hawai.csv")
 
 # Créer une série temporelle
 
-Nous allons crérer la série temporelle en débutant en `r floor(min(hawai$time))`. Puisque `1958.0` correspond à Janvier 1958, la valeur minimale de la série temporelle `r min(hawai$time)` correspond à `r c("janvier", "février", "mars", "avril", "mai", "juin", "juillet","août", "septembre", "octobre", "novembre","décembre")[round((min(hawai$time)-floor(min(hawai$time)))*12)+1]` `r floor(min(hawai$time))`.
+Nous allons créer la série temporelle en débutant en `r floor(min(hawai$time))`. Puisque `1958.0` correspond à janvier 1958, la valeur minimale de la série temporelle `r min(hawai$time)` correspond à `r c("janvier", "février", "mars", "avril", "mai", "juin", "juillet","août", "septembre", "octobre", "novembre","décembre")[round((min(hawai$time)-floor(min(hawai$time)))*12)+1]` `r floor(min(hawai$time))`.
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
@@ -36,12 +36,12 @@ Nous allons crérer la série temporelle en débutant en `r floor(min(hawai$time
 hawai_ts <- ts(hawai[, -1], start = c(1958, 3), frequency = 12)
 ```
 
-Vérifions la série temporelle sous frome de graphique.
+Vérifions la série temporelle sous forme de graphique.
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 
 dygraph(hawai_ts, main = "Concentration en CO<sub>2</sub> atmosphérique à Hawaï") %>%
-  dyAxis("y", label = "Concentration en CO<sub>2</sub> atmosphérique (PPM)") %>%
+  dyAxis("y", label = "Concentration en CO<sub>2</sub> atmosphériques (PPM)") %>%
   dyRangeSelector()
 ```
 
@@ -53,7 +53,7 @@ La forme de la courbe correspond à ce que nous attendions.
 
 Nous allons maintenant créer un modèle qui va prévoir les valeurs de CO<sub>2</sub> du 30% des dates situées à la fin de la série temporelle à l'aide des valeurs précédentes.
   
-Nous commençons par séparer les données en deux ensembles soit l'ensemble d'entraînement `hawai_ts_train` et l'ensemble de test `hawai_ts_test`.
+Nous commençons par séparer les données en deux ensembles soit l'ensemble d'entraînement `hawai_ts_train` et l'ensemble de tests `hawai_ts_test`.
 
 ```{r}
 
@@ -101,7 +101,7 @@ dygraph(tout, main = "Prévision à partir d'un modèle ETS(M, Ad,M)") %>%
   dyLegend(width = 700)
 ```
 
-Sur le graphique, on remarque que la saisonnalité est bien respectée, mais la tendance globale est sous-estimé. La mesure mesuré suit la limite supérieur de l'intervalle de confiance à 95%. Regardons l'analyse d’exactitude ainsi que les résidus.
+Sur le graphique, on remarque que la saisonnalité est bien respectée, mais la tendance globale est sous-estimée. La mesure mesurée suit la limite supérieure de l'intervalle de confiance à 95%. Regardons l'analyse d’exactitude ainsi que les résidus.
 
 
 
@@ -110,14 +110,14 @@ accuracy(hawai_pred, hawai_ts_test)
 ```
 
 
-On voit que la performance du modèle est largement inférieur avec l'ensemble de test que celui d'entrainement. C'est évaluation concorde avec la validation visuelle effectuée sur le graphique.
+On voit que la performance du modèle est largement inférieure avec l'ensemble de tests que celui d'entraînement. Cette évaluation concorde avec la validation visuelle effectuée sur le graphique.
 
 
 
 ```{r}
 checkresiduals(hawai_model)
 ```
-On voit qu'il existe probablement une structure dans les résidus qui indiquerait qu'ils diffèrent d'un bruit blanc. On voit aussi que la distribution des résidus semble un peu trop concentré au centre de la distirbution.  
+On voit qu'il existe probablement une structure dans les résidus qui indiquerait qu'ils diffèrent d'un bruit blanc. On voit aussi que la distribution des résidus semble un peu trop concentrée au centre de la distribution.  
 
 
 Essayons d'effectuer une transformation logarithmique sur les données afin d'améliorer la performance. 
@@ -152,7 +152,7 @@ accuracy(hawai_pred_log, hawai_ts_test)
 ```
 
 
-On voit que cette transformation a grandement améliorer la performance du modèle. 
+On voit que cette transformation a grandement amélioré la performance du modèle. 
 
 
 
@@ -160,9 +160,9 @@ On voit que cette transformation a grandement améliorer la performance du modè
 checkresiduals(hawai_model_log)
 ```
 
-Au niveau des résidus, il semble rester une structure non capté par le modèle. 
+Au niveau des résidus, il semble rester une structure non captée par le modèle. 
 
 
 # Comment améliorer le modèle
 
-Pour améliorer le modèle, on pourrait tester d'autres valeurs de `lambda`. On pourrait aussi essayer d'inclure des covariables (température, humidité, population) qui pourrait aider à la prévision.
+Pour améliorer le modèle, on pourrait tester d'autres valeurs de `lambda`. On pourrait aussi essayer d'inclure des covariables (température, humidité, population) qui pourraient aider à la prévision.
