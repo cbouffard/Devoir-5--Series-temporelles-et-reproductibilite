@@ -101,7 +101,7 @@ dygraph(tout, main = "Prévision à partir d'un modèle ETS(M, Ad,M)") %>%
   dyLegend(width = 700)
 ```
 
-Sur le graphique, on remarque que la saisonnalité est bien respectée, mais la tendance globale est sous-estimée. La mesure mesurée suit la limite supérieure de l'intervalle de confiance à 95%. Regardons l'analyse d’exactitude ainsi que les résidus.
+Sur le graphique, on remarque que la saisonnalité est bien respectée, mais la tendance globale est sous-estimée. La valeur mesurée suit la limite supérieure de l'intervalle de confiance à 95%. Regardons l'analyse d’exactitude ainsi que les résidus.
 
 
 
