@@ -2,7 +2,7 @@
 title: "Devoir 5: Séries temporelles et reproductibilité"
 author: "Cédric Bouffard"
 date: "`r format(Sys.Date())`"
-output: github_document
+output: html_document
 ---
 
 # Préparation de la session R
